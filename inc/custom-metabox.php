@@ -16,7 +16,7 @@ function gallery_metabox_enqueue($hook) {
 add_action('admin_enqueue_scripts', 'gallery_metabox_enqueue');
 
 function add_gallery_metabox($post_type) {
-    $types = array('post', 'page');
+    $types = array('post', 'boats', 'gallery_post', 'page');
     if (in_array($post_type, $types)) {
         add_meta_box(
             'gallery-metabox',

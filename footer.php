@@ -13,16 +13,19 @@
 
 	</div><!-- #content -->
 
-	<footer id="colophon" class="site-footer">
-		<div class="site-info text-center">
-            <p>
-                <?php echo get_theme_mod('footer_text')?>
-                <a href="mailto:<?php echo get_theme_mod('footer_email_link')?>">
-                    <?php echo get_theme_mod('footer_email_text')?>
-                </a>
-            </p>
-		</div><!-- .site-info -->
+	<footer id="colophon" class="site-footer text-center">
+        <section class="well-md well-md--inset-3 relative">
+            <div class="d-footer">
+                <p>
+                    <?php echo get_theme_mod('footer_text')?>
+                    <a href="mailto:<?php echo get_theme_mod('footer_email_link')?>">
+                        <?php echo get_theme_mod('footer_email_text')?>
+                    </a>
+                </p>
+            </div><!-- .site-info -->
+        </section>
 	</footer><!-- #colophon -->
+<a href="#" id="toTop" class="toTop">^</a>
 </div><!-- #page -->
 
 <?php wp_footer(); ?>

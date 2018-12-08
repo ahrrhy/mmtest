@@ -105,6 +105,23 @@ function customizer_front_page_data($wp_customize)
         ]
     );
 
+    $wp_customize->add_setting(
+        'logo_bg',
+        [
+            'default' => '',
+        ]
+    );
+
+    $wp_customize->add_control( new WP_Customize_Image_Control(
+        $wp_customize,
+        'logo_bg',
+        [
+            'label'    => __('Лого для страницы Истории', 'boats'),
+            'section'  => 'page_settings',
+            'settings' => 'logo_bg',
+        ]
+    ));
+
     $wp_customize->add_setting('boat_link_text');
     $wp_customize->add_control(
         'boat_link_text',
@@ -174,8 +191,11 @@ add_action( 'customize_register', 'customizer_front_page_data' );
 
 function output_customizer_setting(){ ?>
     <style>
-        #masthead {
+        .nav-bg, header.any-page {
             background: url("<?php echo get_theme_mod('header_bg'); ?>") no-repeat top left/cover;
+        }
+        .timeline-cell .date {
+            background: #fff url("<?php echo get_theme_mod('logo_bg'); ?>") center/contain no-repeat;
         }
     </style>
 <?php }

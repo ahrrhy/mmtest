@@ -9,11 +9,25 @@
                         'menu_class' => 'nav-inner',
                         'menu'    => 'media-menu',
                         'container' => ''
-                    ]); ?>
-            <?php while ( have_posts() ) : the_post();
-            the_content();
-            endwhile; // End of the loop.
-            ?>
+                    ]);
+                    if( have_rows('pdf_downloadable_files') ) : ?>
+
+                    <div class="news-list">
+                        <?php while ( have_rows('pdf_downloadable_files') ) : the_row();
+                        $pdf_file  = get_sub_field('downloaded_pdf');
+                        $pdf_thumb = get_sub_field('pdf_thumbnail'); ?>
+                        <p class="news-item">
+                            <a href="<?php echo $pdf_file['url']; ?>" class="reset-left">
+                                <img src="<?php echo $pdf_thumb['url'] ?>"
+                                     alt="<?php echo $pdf_thumb['alt']; ?>">
+                            </a>
+                            <a href="<?php echo $pdf_file['url']; ?>">
+                                <?php echo $pdf_file['title']; ?>
+                            </a>(<?php echo $pdf_file['subtype'] . ' ' . size_format($pdf_file['filesize'], 2)?>)<?php echo get_sub_field('pdf_description')?>
+                        </p>
+                        <?php endwhile; ?>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </section>
         </main><!-- #main -->

@@ -1,12 +1,18 @@
 <article id="post-<?php the_ID(); ?>" <?php post_class('well-md well-md--inset-3 marker relative'); ?>>
 	<div class="container-fluid container-inset">
-        <h2><?php echo get_the_title(); ?></h2>
+        <h2 class="page-title text-center text-md-left"><?php echo get_the_title(); ?></h2>
         <div class="timeline-details">
             <div class="time"><?php echo get_the_date('j F Y'); ?></div>
             <?php
                 the_content();
-            ?>
+            $place = get_field('history_places');
+            if ($place) : ?>
+                <div class="place">
+                    <strong><?php echo __('Место:'); ?> </strong> <?php echo $place; ?>
+                </div>
+            <?php endif; ?>
         </div><!-- .entry-content -->
+
         <div class="row row-no-gutter inner-tl-gallery">
             <?php $gallery_array = get_post_meta($post->ID, 'vdw_gallery_id', true);
             if ($gallery_array) {

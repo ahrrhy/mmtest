@@ -6,9 +6,19 @@
                 <h2 class="page-title text-center text-md-left"><?php single_post_title(); ?></h2>
                 <div class="timeline d-hb d-cb">
                     <?php
-                    while ( have_posts() ) : the_post(); ?>
-                    <div class="timeline-cell js-timeline-cell on">
-                        <div class="date"><?php echo get_the_date('j F Y'); ?></div>
+                    $counter = 0;
+                    $containerClass = '';
+                    while ( have_posts() ) : the_post();
+                        $counter++;
+                        if ($counter%2 === 0) {
+                            $containerClass = 'odd';
+                        } else {
+                            $containerClass = '';
+                        } ?>
+
+                    <div class="timeline-cell <?php echo $containerClass; ?> js-timeline-cell">
+
+                        <div class="date"><span><?php echo get_the_date('j F Y'); ?></span></div>
                         <article class="timeline-cell-i">
                             <h3 class="title">
                                 <a href="<?php echo get_post_permalink(); ?>"><?php echo get_the_title(); ?></a>
@@ -19,7 +29,13 @@
                                 </a>
                             </div>
                             <div class="descr d-cb imgd">
-                                <?php the_excerpt(); ?>
+                                <?php the_excerpt();
+                                $place = get_field('history_places');
+                                if ($place) : ?>
+                                <div class="place">
+                                    <strong><?php echo __('Место:'); ?> </strong> <?php echo $place; ?>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </article>
                     </div>

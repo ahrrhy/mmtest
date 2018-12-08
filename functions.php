@@ -178,6 +178,29 @@ function boats_scripts() {
     );
 
     /**
+     * Custom navigation
+     */
+	wp_register_script(
+	    'navigation-js',
+        get_template_directory_uri(). '/js/navigation.js',
+        ['jquery'],
+        '',
+        false
+    );
+    wp_enqueue_script('navigation-js');
+
+    /**
+     * Custom History Page
+     */
+    wp_register_script(
+        'page-history-js',
+        get_template_directory_uri(). '/js/page-history.js',
+        ['jquery'],
+        '',
+        true
+    );
+
+    /**
      * Bootstrap CSS
      */
     wp_register_style(
@@ -211,6 +234,38 @@ function boats_scripts() {
     wp_enqueue_style('camera-css');
 
     /**
+     * Magnific popup js
+     */
+    wp_register_script(
+        'magnific-js',
+        get_template_directory_uri(). '/libs/magnific-popup/dist/jquery.magnific-popup.js',
+        '',
+        '',
+        true
+    );
+    /**
+     * Magnific popup CSS
+     */
+    wp_register_style(
+        'magnific-css',
+        get_template_directory_uri(). '/libs/magnific-popup/dist/magnific-popup.css',
+        '',
+        '',
+        'all'
+    );
+
+    /**
+     * Magnific popup js initialization
+     */
+    wp_register_script(
+        'popup-init-js',
+        get_template_directory_uri(). '/js/popup-init.js',
+        '',
+        '',
+        true
+    );
+
+    /**
      * Common CSS
      */
     wp_register_style(
@@ -225,14 +280,27 @@ function boats_scripts() {
     /**
      * Enqueue camera slider on front-page
      */
-
     if (is_front_page()) {
         wp_enqueue_script('camera-js');
         wp_enqueue_script('camera-init-js');
-
     }
 
+    /**
+     * Enqueue post animation on blog page
+     */
+    if (is_home()) {
+        wp_enqueue_script('page-history-js');
+    }
 
+    /**
+     * Enqueue magnific popup on boats-posts and gallery-post
+     */
+    $post_type = get_post_type();
+    if ($post_type === 'boats' || $post_type === 'gallery_post') {
+        wp_enqueue_script('magnific-js');
+        wp_enqueue_style('magnific-css');
+        wp_enqueue_script('popup-init-js');
+    }
 }
 add_action( 'wp_enqueue_scripts', 'boats_scripts' );
 
@@ -290,15 +358,37 @@ function wp_get_attachment( $attachment_id ) {
 /**
  * Add class active to menu
  */
-add_filter('nav_menu_css_class' , 'special_nav_class' , 10 , 2);
+add_filter('nav_menu_css_class' , 'special_nav_class' , 10 , 4);
 /**
  * @param $classes
  * @param $item
  * @return array
  */
-function special_nav_class ($classes, $item) {
+function special_nav_class ($classes, $item, $args, $depth) {
+    $postType = get_post_type();
+    $postID = get_the_ID();
     if (in_array('current-menu-item', $classes) ){
         $classes[] = 'active ';
+    }
+    if ($postType === 'post') {
+        if (in_array('blog', $classes) ){
+            $classes[] = 'active ';
+        }
+    }
+    if ($postType === 'boats') {
+        if (in_array('boat', $classes) ){
+            $classes[] = 'active ';
+        }
+    }
+    if ($postID === 107 || $postType === 'gallery_post') {
+        if (in_array('photo', $classes) ){
+            $classes[] = 'active ';
+        }
+    }
+    if ($postType === 'gallery_post') {
+        if (in_array('photo-page', $classes) ){
+            $classes[] = 'active ';
+        }
     }
     return $classes;
 }
